@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 
 # NASA Exoplanet Catalog Scraper
-START_URL = "https://science.nasa.gov/exoplanets/exoplanet-catalog/"
+START_URL = "https://en.wikipedia.org/wiki/Lists_of_stars"
 browser = webdriver.Chrome()  # Initializing Chrome WebDriver
 browser.get(START_URL)  # Opening the specified URL in the browser
 
