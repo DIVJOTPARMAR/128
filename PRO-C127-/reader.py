@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 
 # NASA Exoplanet Catalog Scraper
-START_URL = "https://en.wikipedia.org/wiki/Lists_of_stars"
+START_URL = "https://en.wikipedia.org/wiki/Brown_dwarf"
 browser = webdriver.Chrome()  # Initializing Chrome WebDriver
 browser.get(START_URL)  # Opening the specified URL in the browser
 
@@ -69,43 +69,3 @@ planet_df_1 = pd.DataFrame(planets_data, columns=headers)
 
 # Convert DataFrame to CSV and save to file
 planet_df_1.to_csv('scraped_data_nasa_exoplanets.csv', index=True, index_label="id")  # Saving the DataFrame as a CSV file
-
-
-# Wikipedia Brown Dwarf stars Scraper
-BROWN_DWARF_URL = "https://en.wikipedia.org/wiki/Brown_dwarf"
-response = requests.get(BROWN_DWARF_URL)
-soup = BeautifulSoup(response.text, "html.parser")
-
-tables = soup.find_all("table")  # Get all tables on the page
-
-brown_dwarf_data = []  # List to store extracted brown dwarf data
-
-for table in tables:
-    rows = table.find_all("tr")  # Get all rows in the table
-    for row in rows:
-        cols = row.find_all("td")  # Get all columns in the row
-        cols = [col.text.strip() for col in cols]  # Extract text from columns and strip extra characters
-        brown_dwarf_data.append(cols)  # Add row data to the list
-
-# Create separate lists for star name, radius, mass, and distance data
-star_name = []
-radius = []
-mass = []
-distance = []
-
-for row in brown_dwarf_data:
-    star_name.append(row[0])
-    radius.append(row[1])
-    mass.append(row[2])
-    distance.append(row[3])
-
-# Create a pandas DataFrame from the extracted data
-brown_dwarf_df = pd.DataFrame({
-    "Star Name": star_name,
-    "Radius": radius,
-    "Mass": mass,
-    "Distance": distance
-})
-
-# Convert DataFrame to CSV and save to file
-brown_dwarf_df.to_csv('scraped_data_brown_dwarfs.csv', index=True, index_label="id")  # Saving the DataFrame as a CSV file
